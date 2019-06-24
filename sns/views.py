@@ -6,6 +6,9 @@ from django.contrib import messages
 from .models import Message, Friend, Group, Good
 from .froms import GroupCheckForm, GroupSelectForm,\
     SearchForm, FriendsForm, CreateGroupForm, PostForm
+
+from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 @login_required(login_url='/admin/login/')
@@ -42,7 +45,7 @@ def index(request):
                 glist.append(item)
             
             # メッセージ朱徳　
-            messages = get_your_message(request.user, glist, request.POST['search'])
+            messages = get_your_group_message(request.user, glist, request.POST['search'])
 
     # GETアクセス時の処理
     else:
@@ -295,7 +298,7 @@ def get_your_group_message(owner, glist, find):
     his_friends = Friend.objects.filter(user=owner).filter(group__in=his_groups)
 
     me_groups =[]
-    for fh in his_friends:
+    for hf in his_friends:
         me_groups.append(hf.group)
     
     # groupがgroupsに含まれるか，me_groupsに含まれるMessageの取得
