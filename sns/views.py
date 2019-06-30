@@ -277,7 +277,8 @@ def good(request, good_id):
     messages.success(request, 'メッセージにGoodしました！')
     return redirect(to='/sns')
 
-### これ以降はビュー関数でなく，普通の関数
+### これ以降はビュー関数でなく，普通の関数 ###
+
 
 
 def get_your_group_message(owner, glist, find):
